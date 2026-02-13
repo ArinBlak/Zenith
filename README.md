@@ -1,5 +1,6 @@
 # Zenith - Binance Futures Pro
 A professional algorithmic trading bot for Binance Futures.
+Public URL to test it out yourself: https://zenith-ujbr.onrender.com
 
 ![Dashboard Preview](assets/dashboard_hosted.png)
 
