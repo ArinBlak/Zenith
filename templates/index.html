@@ -650,40 +650,54 @@
             }
         }
 
-        // Mock Log Generator to simulate activity
+        // WebSocket for Live Prices
         const logContainer = document.getElementById('log-container');
-        function getTimestamp() {
-            const now = new Date();
-            return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}.${String(now.getMilliseconds()).padStart(3, '0')}`;
-        }
 
-        function addLog(msg) {
+        function addLog(msg, type = "normal") {
             const logEntry = document.createElement('div');
-            logEntry.textContent = `${getTimestamp()} BinanceSystem: ${msg}`;
+            const colorClass = type === "price" ? "text-green" : "";
+            logEntry.className = colorClass;
+            logEntry.textContent = msg;
             logContainer.appendChild(logEntry);
+
+            // Limit log entries to keep UI snappy
+            if (logContainer.childNodes.length > 50) {
+                logContainer.removeChild(logContainer.firstChild);
+            }
             logContainer.scrollTop = logContainer.scrollHeight;
         }
 
-        // Generate initial fake logs
-        const initialLogs = [
-            "Initializing secure connection to Binance API...",
-            "Websocket streams connected successfully.",
-            "Fetching account balances...",
-            "Listening for mark price updates..."
-        ];
+        function connectWebSocket() {
+            const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
+            const wsUrl = `${protocol}//${window.location.host}/ws`;
+            const socket = new WebSocket(wsUrl);
 
-        initialLogs.forEach(log => addLog(log));
+            socket.onopen = () => {
+                addLog(`[${new Date().toLocaleTimeString()}] WebSocket: Connected to live price stream.`);
+            };
 
-        // Random mock log pings to make the UI feel "alive"
-        setInterval(() => {
-            const pairs = ['BTCUSDT', 'ETHUSDT', 'SOLUSDT', 'BNBUSDT'];
-            const pair = pairs[Math.floor(Math.random() * pairs.length)];
-            const price = (Math.random() * 60000 + 100).toFixed(2);
-            addLog(`Tick update: ${pair} @ ${price}`);
-        }, 3500);
+            socket.onmessage = (event) => {
+                const message = JSON.parse(event.data);
+                if (message.type === "price_update") {
+                    message.data.forEach(p => {
+                        addLog(`[${p.time}] ${p.symbol}: ${p.price}`, "price");
+                    });
+                }
+            };
+
+            socket.onclose = () => {
+                addLog(`[${new Date().toLocaleTimeString()}] WebSocket: Disconnected. Reconnecting...`);
+                setTimeout(connectWebSocket, 5000);
+            };
+
+            socket.onerror = (err) => {
+                console.error("WebSocket error:", err);
+            };
+        }
 
         // Init
         toggleFields();
+        connectWebSocket();
     </script>
 </body>
 

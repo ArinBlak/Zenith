@@ -1,10 +1,14 @@
-from fastapi import FastAPI, Request, Form
+from fastapi import FastAPI, Request, Form, WebSocket, WebSocketDisconnect, BackgroundTasks
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 import uvicorn
 import logging
-from typing import Annotated
+import json
+import asyncio
+import websockets
+from typing import Annotated, List
+from contextlib import asynccontextmanager
 
 from binance_bot.client import BinanceFuturesClient
 from binance_bot.config import load_config
@@ -13,8 +17,66 @@ from binance_bot.config import load_config
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("web_ui")
 
-app = FastAPI(title="Binance Bot Dashboard")
+# WebSocket Manager
+class ConnectionManager:
+    def __init__(self):
+        self.active_connections: List[WebSocket] = []
+
+    async def connect(self, websocket: WebSocket):
+        await websocket.accept()
+        self.active_connections.append(websocket)
+
+    def disconnect(self, websocket: WebSocket):
+        self.active_connections.remove(websocket)
+
+    async def broadcast(self, message: str):
+        for connection in self.active_connections:
+            try:
+                await connection.send_text(message)
+            except Exception:
+                pass
+
+manager = ConnectionManager()
+
+# Background Price Streamer
+async def binance_price_streamer():
+    """Background task to stream price updates from Binance to all connected clients."""
+    binance_ws_url = "wss://fstream.binancefuture.com/ws/!markPrice@arr"
+    while True:
+        try:
+            async with websockets.connect(binance_ws_url) as ws:
+                logger.info("Connected to Binance WebSocket")
+                while True:
+                    data = await ws.recv()
+                    prices = json.loads(data)
+                    # We only care about major pairs for the UI logs
+                    updates = []
+                    for p in prices:
+                        symbol = p['s']
+                        if symbol in ["BTCUSDT", "ETHUSDT", "SOLUSDT", "BNBUSDT"]:
+                            updates.append({
+                                "symbol": symbol,
+                                "price": f"{float(p['p']):.2f}",
+                                "time": time.strftime("%H:%M:%S")
+                            })
+                    
+                    if updates:
+                        await manager.broadcast(json.dumps({"type": "price_update", "data": updates}))
+        except Exception as e:
+            logger.error(f"WebSocket error: {e}. Reconnecting in 5s...")
+            await asyncio.sleep(5)
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup
+    stream_task = asyncio.create_task(binance_price_streamer())
+    yield
+    # Shutdown
+    stream_task.cancel()
+
+app = FastAPI(title="Binance Bot Dashboard", lifespan=lifespan)
 templates = Jinja2Templates(directory="templates")
+import time
 
 # Initialize Client
 try:
@@ -113,6 +175,15 @@ async def start_grid(
         return templates.TemplateResponse("index.html", {"request": request, "message": msg, "msg_type": "success"})
     except Exception as e:
         return templates.TemplateResponse("index.html", {"request": request, "message": f"Strategy Error: {e}", "msg_type": "error"})
+
+@app.websocket("/ws")
+async def websocket_endpoint(websocket: WebSocket):
+    await manager.connect(websocket)
+    try:
+        while True:
+            await websocket.receive_text() # Keep connection alive
+    except WebSocketDisconnect:
+        manager.disconnect(websocket)
 
 @app.get("/logs")
 async def get_logs():
