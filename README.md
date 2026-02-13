@@ -1,6 +1,12 @@
-# Simplified Binance Futures Testnet Trading Bot
+# Zenith - Binance Futures Pro
+A professional algorithmic trading bot for Binance Futures.
 
-Python CLI app to place `MARKET` and `LIMIT` orders on Binance Futures Testnet (USDT-M).
+![Dashboard Preview](assets/dashboard.png)
+
+### 🎬 Demo
+![Project Demo](assets/demo.webp)
+
+Zenith allows you to place `MARKET` and `LIMIT` orders on Binance Futures Testnet (USDT-M) with a premium web UI and algorithmic strategies.
 
 ## Features
 - Places `BUY` and `SELL` orders
