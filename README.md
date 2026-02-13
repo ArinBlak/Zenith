@@ -3,9 +3,6 @@ A professional algorithmic trading bot for Binance Futures.
 
 ![Dashboard Preview](assets/dashboard_hosted.png)
 
-### 🎬 Demo
-![Project Demo](assets/demo_hosted.webp)
-
 Zenith allows you to place `MARKET` and `LIMIT` orders on Binance Futures Testnet (USDT-M) with a premium web UI and algorithmic strategies.
 
 ## Features
