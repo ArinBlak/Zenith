@@ -1,0 +1,67 @@
+2026-02-12 23:46:31,057 | ERROR | cli | Order placement failed
+Traceback (most recent call last):
+  File "/Users/arin/Documents/New project/main.py", line 72, in run
+    payload = normalize_and_validate(
+              ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/arin/Documents/New project/binance_bot/validators.py", line 23, in normalize_and_validate
+    raise InputValidationError("Quantity must be greater than 0.")
+binance_bot.exceptions.InputValidationError: Quantity must be greater than 0.
+2026-02-12 23:46:52,638 | ERROR | cli | Order placement failed
+Traceback (most recent call last):
+  File "/Users/arin/Documents/New project/main.py", line 85, in run
+    config = load_config()
+             ^^^^^^^^^^^^^
+  File "/Users/arin/Documents/New project/binance_bot/config.py", line 26, in load_config
+    raise ConfigError(
+binance_bot.exceptions.ConfigError: Missing API credentials. Set BINANCE_API_KEY and BINANCE_API_SECRET.
+2026-02-12 23:49:13,148 | INFO | BinanceFuturesClient | API request | method=POST url=https://testnet.binancefuture.com/fapi/v1/order params={'symbol': 'BTCUSDT', 'side': 'BUY', 'type': 'MARKET', 'quantity': '1', 'timestamp': 1770920353148, 'recvWindow': 5000, 'newOrderRespType': 'RESULT'}
+2026-02-12 23:49:14,125 | INFO | BinanceFuturesClient | API response | status_code=200 body={'orderId': 12220382049, 'symbol': 'BTCUSDT', 'status': 'FILLED', 'clientOrderId': 'ISC3IWOHKJtFczExBBqVm9', 'price': '0.00', 'avgPrice': '65378.09580', 'origQty': '1.000', 'executedQty': '1.000', 'cumQty': '1.000', 'cumQuote': '65378.09580', 'timeInForce': 'GTC', 'type': 'MARKET', 'reduceOnly': False, 'closePosition': False, 'side': 'BUY', 'positionSide': 'BOTH', 'stopPrice': '0.00', 'workingType': 'CONTRACT_PRICE', 'priceProtect': False, 'origType': 'MARKET', 'priceMatch': 'NONE', 'selfTradePreventionMode': 'EXPIRE_MAKER', 'goodTillDate': 0, 'updateTime': 1770920354054}
+2026-02-12 23:49:14,125 | INFO | BinanceFuturesClient | API request | method=GET url=https://testnet.binancefuture.com/fapi/v1/order params={'symbol': 'BTCUSDT', 'orderId': 12220382049, 'timestamp': 1770920354125, 'recvWindow': 5000}
+2026-02-12 23:49:14,794 | INFO | BinanceFuturesClient | API response | status_code=200 body={'orderId': 12220382049, 'symbol': 'BTCUSDT', 'status': 'FILLED', 'clientOrderId': 'ISC3IWOHKJtFczExBBqVm9', 'price': '0.00', 'avgPrice': '65378.09580', 'origQty': '1.000', 'executedQty': '1.000', 'cumQuote': '65378.09580', 'timeInForce': 'GTC', 'type': 'MARKET', 'reduceOnly': False, 'closePosition': False, 'side': 'BUY', 'positionSide': 'BOTH', 'stopPrice': '0.00', 'workingType': 'CONTRACT_PRICE', 'priceProtect': False, 'origType': 'MARKET', 'priceMatch': 'NONE', 'selfTradePreventionMode': 'EXPIRE_MAKER', 'goodTillDate': 0, 'time': 1770920354054, 'updateTime': 1770920354054}
+2026-02-12 23:50:06,200 | INFO | BinanceFuturesClient | API request | method=POST url=https://testnet.binancefuture.com/fapi/v1/order params={'symbol': 'BTCUSDT', 'side': 'SELL', 'type': 'LIMIT', 'quantity': '0.001', 'timestamp': 1770920406200, 'recvWindow': 5000, 'newOrderRespType': 'RESULT', 'price': '120000', 'timeInForce': 'GTC'}
+2026-02-12 23:50:06,854 | INFO | BinanceFuturesClient | API response | status_code=200 body={'orderId': 12220400670, 'symbol': 'BTCUSDT', 'status': 'NEW', 'clientOrderId': 'a7S78tEqPpr1LbtZZu11MG', 'price': '120000.00', 'avgPrice': '0.00', 'origQty': '0.001', 'executedQty': '0.000', 'cumQty': '0.000', 'cumQuote': '0.00000', 'timeInForce': 'GTC', 'type': 'LIMIT', 'reduceOnly': False, 'closePosition': False, 'side': 'SELL', 'positionSide': 'BOTH', 'stopPrice': '0.00', 'workingType': 'CONTRACT_PRICE', 'priceProtect': False, 'origType': 'LIMIT', 'priceMatch': 'NONE', 'selfTradePreventionMode': 'EXPIRE_MAKER', 'goodTillDate': 0, 'updateTime': 1770920406795}
+2026-02-12 23:50:50,698 | INFO | BinanceFuturesClient | API request | method=POST url=https://testnet.binancefuture.com/fapi/v1/order params={'symbol': 'BTCUSDT', 'side': 'BUY', 'type': 'MARKET', 'quantity': '0.001', 'timestamp': 1770920450698, 'recvWindow': 5000, 'newOrderRespType': 'RESULT'}
+2026-02-12 23:50:51,639 | INFO | BinanceFuturesClient | API response | status_code=400 body={'code': -4164, 'msg': "Order's notional must be no smaller than 100 (unless you choose reduce only)."}
+2026-02-12 23:50:51,639 | ERROR | cli | Order placement failed
+Traceback (most recent call last):
+  File "/Users/arin/Documents/New project/main.py", line 89, in run
+    response = client.place_order(
+               ^^^^^^^^^^^^^^^^^^^
+  File "/Users/arin/Documents/New project/binance_bot/client.py", line 56, in place_order
+    response = self._send_signed_request("POST", "/fapi/v1/order", params)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/arin/Documents/New project/binance_bot/client.py", line 114, in _send_signed_request
+    raise BinanceAPIError(f"Binance API error {code}: {msg}")
+binance_bot.exceptions.BinanceAPIError: Binance API error -4164: Order's notional must be no smaller than 100 (unless you choose reduce only).
+2026-02-12 23:58:44,843 | INFO | BinanceFuturesClient | API request | method=POST url=https://testnet.binancefuture.com/fapi/v1/order params={'symbol': 'BTCUSDT', 'side': 'BUY', 'type': 'MARKET', 'quantity': '0.001', 'timestamp': 1770920924843, 'recvWindow': 5000, 'newOrderRespType': 'RESULT'}
+2026-02-12 23:58:45,690 | INFO | BinanceFuturesClient | API response | status_code=400 body={'code': -4164, 'msg': "Order's notional must be no smaller than 100 (unless you choose reduce only)."}
+2026-02-12 23:58:45,690 | ERROR | cli | Order placement failed
+Traceback (most recent call last):
+  File "/Users/arin/Documents/New project/main.py", line 89, in run
+    response = client.place_order(
+               ^^^^^^^^^^^^^^^^^^^
+  File "/Users/arin/Documents/New project/binance_bot/client.py", line 56, in place_order
+    response = self._send_signed_request("POST", "/fapi/v1/order", params)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/arin/Documents/New project/binance_bot/client.py", line 114, in _send_signed_request
+    raise BinanceAPIError(f"Binance API error {code}: {msg}")
+binance_bot.exceptions.BinanceAPIError: Binance API error -4164: Order's notional must be no smaller than 100 (unless you choose reduce only).
+2026-02-12 23:59:09,510 | INFO | BinanceFuturesClient | API request | method=POST url=https://testnet.binancefuture.com/fapi/v1/order params={'symbol': 'BTCUSDT', 'side': 'SELL', 'type': 'LIMIT', 'quantity': '0.001', 'timestamp': 1770920949510, 'recvWindow': 5000, 'newOrderRespType': 'RESULT', 'price': '50000', 'timeInForce': 'GTC'}
+2026-02-12 23:59:10,195 | INFO | BinanceFuturesClient | API response | status_code=400 body={'code': -4024, 'msg': "Limit price can't be lower than 62027.50."}
+2026-02-12 23:59:10,195 | ERROR | cli | Order placement failed
+Traceback (most recent call last):
+  File "/Users/arin/Documents/New project/main.py", line 89, in run
+    response = client.place_order(
+               ^^^^^^^^^^^^^^^^^^^
+  File "/Users/arin/Documents/New project/binance_bot/client.py", line 56, in place_order
+    response = self._send_signed_request("POST", "/fapi/v1/order", params)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/arin/Documents/New project/binance_bot/client.py", line 114, in _send_signed_request
+    raise BinanceAPIError(f"Binance API error {code}: {msg}")
+binance_bot.exceptions.BinanceAPIError: Binance API error -4024: Limit price can't be lower than 62027.50.
+2026-02-13 00:02:24,712 | INFO | BinanceFuturesClient | API request | method=POST url=https://testnet.binancefuture.com/fapi/v1/order params={'symbol': 'BTCUSDT', 'side': 'BUY', 'type': 'MARKET', 'quantity': '0.002', 'timestamp': 1770921144712, 'recvWindow': 5000, 'newOrderRespType': 'RESULT'}
+2026-02-13 00:02:25,653 | INFO | BinanceFuturesClient | API response | status_code=200 body={'orderId': 12220679314, 'symbol': 'BTCUSDT', 'status': 'FILLED', 'clientOrderId': 'Oca58S10NDHCfF3GtgzvIa', 'price': '0.00', 'avgPrice': '65103.40000', 'origQty': '0.002', 'executedQty': '0.002', 'cumQty': '0.002', 'cumQuote': '130.20680', 'timeInForce': 'GTC', 'type': 'MARKET', 'reduceOnly': False, 'closePosition': False, 'side': 'BUY', 'positionSide': 'BOTH', 'stopPrice': '0.00', 'workingType': 'CONTRACT_PRICE', 'priceProtect': False, 'origType': 'MARKET', 'priceMatch': 'NONE', 'selfTradePreventionMode': 'EXPIRE_MAKER', 'goodTillDate': 0, 'updateTime': 1770921145559}
+2026-02-13 00:02:25,653 | INFO | BinanceFuturesClient | API request | method=GET url=https://testnet.binancefuture.com/fapi/v1/order params={'symbol': 'BTCUSDT', 'orderId': 12220679314, 'timestamp': 1770921145653, 'recvWindow': 5000}
+2026-02-13 00:02:25,863 | INFO | BinanceFuturesClient | API response | status_code=200 body={'orderId': 12220679314, 'symbol': 'BTCUSDT', 'status': 'FILLED', 'clientOrderId': 'Oca58S10NDHCfF3GtgzvIa', 'price': '0.00', 'avgPrice': '65103.40000', 'origQty': '0.002', 'executedQty': '0.002', 'cumQuote': '130.20680', 'timeInForce': 'GTC', 'type': 'MARKET', 'reduceOnly': False, 'closePosition': False, 'side': 'BUY', 'positionSide': 'BOTH', 'stopPrice': '0.00', 'workingType': 'CONTRACT_PRICE', 'priceProtect': False, 'origType': 'MARKET', 'priceMatch': 'NONE', 'selfTradePreventionMode': 'EXPIRE_MAKER', 'goodTillDate': 0, 'time': 1770921145551, 'updateTime': 1770921145559}
+2026-02-13 00:02:28,058 | INFO | BinanceFuturesClient | API request | method=POST url=https://testnet.binancefuture.com/fapi/v1/order params={'symbol': 'BTCUSDT', 'side': 'SELL', 'type': 'LIMIT', 'quantity': '0.002', 'timestamp': 1770921148058, 'recvWindow': 5000, 'newOrderRespType': 'RESULT', 'price': '100000', 'timeInForce': 'GTC'}
+2026-02-13 00:02:28,459 | INFO | BinanceFuturesClient | API response | status_code=200 body={'orderId': 12220680247, 'symbol': 'BTCUSDT', 'status': 'NEW', 'clientOrderId': '6D8LVBouaeCzZjtiBTZ4Q6', 'price': '100000.00', 'avgPrice': '0.00', 'origQty': '0.002', 'executedQty': '0.000', 'cumQty': '0.000', 'cumQuote': '0.00000', 'timeInForce': 'GTC', 'type': 'LIMIT', 'reduceOnly': False, 'closePosition': False, 'side': 'SELL', 'positionSide': 'BOTH', 'stopPrice': '0.00', 'workingType': 'CONTRACT_PRICE', 'priceProtect': False, 'origType': 'LIMIT', 'priceMatch': 'NONE', 'selfTradePreventionMode': 'EXPIRE_MAKER', 'goodTillDate': 0, 'updateTime': 1770921148395}
