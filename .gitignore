@@ -33,16 +33,57 @@ venv.bak/
 
 # Logs
 *.log
+binance_bot.log
 
 # OS
 .DS_Store
 Thumbs.db
+*.swp
+*.swo
 
 # IDEs
 .vscode/
 .idea/
 *.swp
 *.swo
+.vscode
+.idea
+
+# Test files (optional - uncomment if you want to exclude test scripts)
+# test_*.py
+
+# Temporary files
+*.tmp
+*.bak
+*~
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# pyenv
+.python-version
 
 # Project specific
+binance_bot.log
 .binance_bot.log
+
+# Coverage reports
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Node modules (if any frontend dependencies added)
+node_modules/
+package-lock.json
+yarn.lock

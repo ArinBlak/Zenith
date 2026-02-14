@@ -124,6 +124,34 @@ The Web Dashboard now includes:
 - **Advanced Order Controls**:
     - **Reduce Only**: Ensure orders only close positions.
     - **Stop Loss / Take Profit**: Set trigger prices for advanced risk management.
+- **Sentiment Analysis** 🆕: AI-powered market intelligence using local LLM
+    - Scrapes crypto news, Reddit, and Twitter/X for your trading pairs
+    - Generates real-time Sentiment Score (0-100: Bearish → Neutral → Bullish)
+    - Uses llama3.1:8b via Ollama for intelligent analysis
+    - Integrates with strategies: pause trading when sentiment drops
+    - Live dashboard display with color-coded scores
+
+### Sentiment Analysis Setup
+```bash
+# 1. Ensure Ollama is running with llama3.1:8b
+ollama list
+
+# 2. (Optional) Configure Reddit API for social sentiment
+# See REDDIT_API_SETUP.md for instructions
+
+# 3. Start the web server (sentiment worker starts automatically)
+python web_api.py
+```
+
+Sentiment scores update every 15-30 minutes. View on the dashboard or use in strategies:
+```python
+# Example: TWAP with sentiment guard
+strategy = TWAPStrategy(
+    client, "BTCUSDT", "BUY", 1.0, 3600, 12,
+    min_sentiment_score=50,  # Pause if sentiment < 50
+    pause_on_bearish=True
+)
+```
 
 ## Project Structure
 - `main.py`: CLI argument parsing and command flow

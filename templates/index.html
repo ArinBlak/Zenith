@@ -115,7 +115,7 @@
         /* CSS Grid Layouts */
         .top-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr 2fr;
+            grid-template-columns: 1fr 1fr 1fr 2fr;
             gap: 1.5rem;
         }
 
@@ -214,6 +214,34 @@
             border-top: 1px solid rgba(255, 50, 100, 0.3);
             background: linear-gradient(180deg, var(--glow-red) 0%, transparent 60%);
             padding: 1rem 1.5rem;
+        }
+
+        .card.sentiment {
+            border-top: 1px solid rgba(255, 200, 0, 0.3);
+            background: linear-gradient(180deg, rgba(255, 200, 0, 0.15) 0%, transparent 60%);
+        }
+
+        .sentiment-score {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .sentiment-score.bullish {
+            background: linear-gradient(135deg, var(--accent-green), #00FF87);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .sentiment-score.bearish {
+            background: linear-gradient(135deg, var(--accent-red), #FF6B9D);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .divider {
@@ -429,12 +457,243 @@
             text-shadow: 0 0 10px rgba(255, 50, 100, 0.3);
         }
 
+        /* Text-to-Trade Search Bar */
+        .command-search-container {
+            max-width: 900px;
+            margin: 0 auto 2rem;
+            animation: fadeUp 0.8s ease-out backwards 0.2s;
+        }
+
+        .command-search {
+            position: relative;
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+        }
+
+        .command-search input {
+            flex: 1;
+            padding: 1.2rem 1.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: var(--text-main);
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .command-search input:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 20px rgba(74, 144, 226, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .command-search input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .command-search button {
+            padding: 1.2rem 2rem;
+            background: linear-gradient(135deg, var(--accent-blue), #5865F2);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .command-search button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(74, 144, 226, 0.4);
+        }
+
+        .command-search button:active {
+            transform: translateY(0);
+        }
+
+        .command-search button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .suggestions {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 0.75rem;
+            opacity: 0.8;
+        }
+
+        .suggestion-chip {
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .suggestion-chip:hover {
+            background: rgba(74, 144, 226, 0.2);
+            border-color: var(--accent-blue);
+            color: var(--text-main);
+            transform: translateY(-2px);
+        }
+
+        #parsed-preview {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(74, 144, 226, 0.3);
+            border-radius: 12px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .preview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .preview-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .preview-confidence {
+            padding: 0.4rem 0.8rem;
+            background: rgba(0, 255, 135, 0.15);
+            border-radius: 8px;
+            color: var(--accent-green);
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .param-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .param-card {
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+        }
+
+        .param-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .param-value {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .preview-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .btn-execute {
+            flex: 1;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, var(--accent-green), #00D084);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-execute:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 255, 135, 0.4);
+        }
+
+        .btn-cancel {
+            padding: 1rem 2rem;
+            background: rgba(255, 50, 100, 0.2);
+            border: 1px solid rgba(255, 50, 100, 0.3);
+            border-radius: 10px;
+            color: var(--accent-red);
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-cancel:hover {
+            background: rgba(255, 50, 100, 0.3);
+        }
+
+        .error-message {
+            padding: 1rem;
+            background: rgba(255, 50, 100, 0.15);
+            border: 1px solid rgba(255, 50, 100, 0.3);
+            border-radius: 8px;
+            color: var(--accent-red);
+            margin-top: 1rem;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-left: 0.5rem;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         @media (max-width: 900px) {
             .top-grid {
                 grid-template-columns: 1fr;
             }
 
             .bottom-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .param-grid {
                 grid-template-columns: 1fr;
             }
         }
@@ -449,13 +708,46 @@
         <div class="orb orb-3"></div>
     </div>
 
+    <h1>⚡ Zenith Trading Bot</h1>
+
+    <!-- Text-to-Trade Search Bar -->
+    <div class="command-search-container">
+        <div class="command-search">
+            <input type="text" id="trade-command"
+                placeholder="Try: 'Buy 0.5 BTC with TWAP over 1 hour' or 'Set up grid for SOL $130-$150'"
+                autocomplete="off">
+            <button onclick="parseCommand()" id="parse-btn">Parse</button>
+        </div>
+        <div class="suggestions">
+            <div class="suggestion-chip" onclick="fillCommand(this.textContent)">Buy 0.5 BTC using TWAP over 1 hour with
+                12 slices</div>
+            <div class="suggestion-chip" onclick="fillCommand(this.textContent)">Set up grid for SOL between $130 and
+                $150 with 10 grids</div>
+            <div class="suggestion-chip" onclick="fillCommand(this.textContent)">Execute TWAP for 1 ETH over 30 minutes,
+                pause if bearish</div>
+        </div>
+        <div id="parsed-preview" style="display:none;">
+            <div class="preview-header">
+                <div class="preview-title" id="preview-strategy"></div>
+                <div class="preview-confidence" id="preview-confidence"></div>
+            </div>
+            <div class="param-grid" id="preview-params"></div>
+            <div id="preview-error" class="error-message" style="display:none;"></div>
+            <div class="preview-actions">
+                <button class="btn-execute" onclick="executeStrategy()">✓ Execute Strategy</button>
+                <button class="btn-cancel" onclick="cancelCommand()">✕ Cancel</button>
+            </div>
+        </div>
+    </div>
+
     <div class="container">
         <h1>BINANCE FUTURES PRO</h1>
+
 
         <div class="top-grid">
             <div class="card wallet">
                 <p class="card-title">Wallet Balance</p>
-                <div class="card-value" id="balance">45,231.50 USDT</div>
+                <div class="card-value" id="balance">Loading...</div>
                 <div class="divider"></div>
                 <p class="card-title" style="margin-bottom:0;">Fee Tier</p>
                 <div style="font-size: 0.9rem; color: var(--text-main);">VIP 1</div>
@@ -464,12 +756,22 @@
             <div class="stack-grid">
                 <div class="card pnl">
                     <p class="card-title">Unrealized PnL</p>
-                    <div class="card-value text-green" id="pnl">+1,245.80</div>
+                    <div class="card-value text-green" id="pnl">Loading...</div>
                 </div>
                 <div class="card margin">
                     <p class="card-title">Margin Ratio</p>
-                    <div class="card-value" id="margin-ratio">4.2%</div>
+                    <div class="card-value" id="margin-ratio">Loading...</div>
                 </div>
+            </div>
+
+            <div class="card sentiment">
+                <p class="card-title">Market Sentiment</p>
+                <div class="sentiment-score" id="sentiment-score">--</div>
+                <div style="font-size: 1rem; color: var(--text-main); margin-top: 0.5rem;" id="sentiment-label">
+                    Loading...</div>
+                <div class="divider"></div>
+                <p class="card-title" style="margin-bottom: 0;">Last Update</p>
+                <div style="font-size: 0.85rem; color: var(--text-muted);" id="sentiment-update">--</div>
             </div>
 
             <div class="card">
@@ -485,7 +787,7 @@
                                 <th>PnL (ROE)</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="positions-tbody">
                             <tr>
                                 <td>BTCUSDT</td>
                                 <td class="text-green">+0.500</td>
@@ -503,6 +805,42 @@
                         </tbody>
                     </table>
                 </div>
+            </div>
+        </div>
+
+        <!-- Portfolio Analytics Section -->
+        <h2 style="margin: 2rem 0 1rem 0; color: var(--text-main);">Portfolio Analytics (30 Days)</h2>
+
+        <div class="analytics-grid"
+            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+            <div class="card" style="text-align: center;">
+                <p class="card-title">Win Rate</p>
+                <div class="card-value" id="win-rate" style="color: var(--text-main);">--</div>
+                <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.5rem;">of trades profitable
+                </p>
+            </div>
+            <div class="card" style="text-align: center;">
+                <p class="card-title">Profit Factor</p>
+                <div class="card-value" id="profit-factor" style="color: var(--text-main);">--</div>
+                <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.5rem;">profit/loss ratio</p>
+            </div>
+            <div class="card" style="text-align: center;">
+                <p class="card-title">Sharpe Ratio</p>
+                <div class="card-value" id="sharpe-ratio" style="color: var(--text-main);">--</div>
+                <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.5rem;">risk-adjusted return
+                </p>
+            </div>
+            <div class="card" style="text-align: center;">
+                <p class="card-title">Sortino Ratio</p>
+                <div class="card-value" id="sortino-ratio" style="color: var(--text-main);">--</div>
+                <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.5rem;">downside risk</p>
+            </div>
+        </div>
+
+        <div class="card" style="min-height: 200px;">
+            <p class="card-title">Trading Pairs Performance</p>
+            <div id="heat-map-container" style="display: flex; flex-wrap: wrap; gap: 0.75rem; padding: 1rem 0;">
+                <p style="text-align: center; color: var(--text-secondary); grid-column: 1 / -1;">Loading...</p>
             </div>
         </div>
 
@@ -682,6 +1020,8 @@
                     message.data.forEach(p => {
                         addLog(`[${p.time}] ${p.symbol}: ${p.price}`, "price");
                     });
+                } else if (message.type === "sentiment_update") {
+                    updateSentiment(message.data);
                 }
             };
 
@@ -695,9 +1035,273 @@
             };
         }
 
+        // Fetch and update sentiment
+        async function fetchSentiment() {
+            try {
+                const response = await fetch('/sentiment/market');
+                const data = await response.json();
+                updateSentiment(data);
+            } catch (error) {
+                console.error('Error fetching sentiment:', error);
+            }
+        }
+
+        function updateSentiment(data) {
+            const scoreEl = document.getElementById('sentiment-score');
+            const labelEl = document.getElementById('sentiment-label');
+            const updateEl = document.getElementById('sentiment-update');
+
+            if (data.error) {
+                scoreEl.textContent = '--';
+                labelEl.textContent = 'Not Available';
+                updateEl.textContent = '--';
+                return;
+            }
+
+            const score = data.score || 50;
+            scoreEl.textContent = Math.round(score);
+            labelEl.textContent = data.label || 'Neutral';
+
+            // Update color based on sentiment
+            scoreEl.className = 'sentiment-score';
+            if (data.label === 'Bullish') {
+                scoreEl.classList.add('bullish');
+            } else if (data.label === 'Bearish') {
+                scoreEl.classList.add('bearish');
+            }
+
+            // Update timestamp
+            if (data.last_update) {
+                const date = new Date(data.last_update);
+                updateEl.textContent = date.toLocaleTimeString();
+            }
+
+            // Optional: Add animation effect
+            scoreEl.style.animation = 'none';
+            setTimeout(() => {
+                scoreEl.style.animation = 'pulse-glow 2s infinite alternate';
+            }, 10);
+        }
+
         // Init
         toggleFields();
         connectWebSocket();
+        fetchSentiment(); // Initial sentiment fetch
+        setInterval(fetchSentiment, 60000); // Refresh every minute
+    </script>
+
+    <script src="/static/text_to_trade.js"></script>
+
+    <script>
+        // Fetch and update real account data from Binance
+        async function updateAccountData() {
+            try {
+                const response = await fetch('/api/account');
+                const data = await response.json();
+
+                if (data.error) {
+                    console.error('Error fetching account data:', data.error);
+                    return;
+                }
+
+                // Update wallet balance
+                const balanceElement = document.getElementById('balance');
+                if (balanceElement) {
+                    balanceElement.textContent =
+                        `${data.walletBalance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USDT`;
+                }
+
+                // Update unrealized PnL
+                const pnlElement = document.getElementById('pnl');
+                if (pnlElement) {
+                    const pnlValue = data.unrealizedPnL;
+                    pnlElement.textContent =
+                        `${pnlValue >= 0 ? '+' : ''}${pnlValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+                    pnlElement.className = pnlValue >= 0 ? 'card-value text-green' : 'card-value text-red';
+                }
+
+                // Update margin ratio
+                const marginElement = document.getElementById('margin-ratio');
+                if (marginElement) {
+                    marginElement.textContent = `${data.marginRatio}%`;
+                }
+
+            } catch (error) {
+                console.error('Error updating account data:', error);
+            }
+        }
+
+        // Call on page load
+        updateAccountData();
+
+        // Refresh every 5 seconds
+        setInterval(updateAccountData, 5000);
+
+        // Fetch and update positions
+        async function updatePositions() {
+            try {
+                const response = await fetch('/api/positions');
+                const data = await response.json();
+
+                if (data.error) {
+                    console.error('Error fetching positions:', data.error);
+                    return;
+                }
+
+                const tbody = document.getElementById('positions-tbody');
+                if (!tbody) return;
+
+                const positions = data.positions || [];
+
+                if (positions.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:1rem;color:var(--text-secondary);">No open positions</td></tr>';
+                    return;
+                }
+
+                tbody.innerHTML = positions.map(pos => {
+                    const size = pos.size;
+                    const sizeClass = size > 0 ? 'text-green' : 'text-red';
+                    const sizeText = size > 0 ? `+${size}` : `${size}`;
+
+                    // For mark price, we'll use a simple fetch or default to entry
+                    const markPrice = pos.entryPrice; // Will be updated by WebSocket data
+
+                    const pnl = pos.unrealizedProfit;
+                    const pnlClass = pnl >= 0 ? 'text-green' : 'text-red';
+                    const pnlSign = pnl >= 0 ? '+' : '';
+
+                    // Calculate ROE
+                    const roe = ((pnl / (Math.abs(size) * pos.entryPrice)) * pos.leverage * 100).toFixed(2);
+                    const roeSign = parseFloat(roe) >= 0 ? '+' : '';
+
+                    return `
+                        <tr>
+                            <td>${pos.symbol}</td>
+                            <td class="${sizeClass}">${sizeText}</td>
+                            <td>${pos.entryPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                            <td>${markPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                            <td class="${pnlClass}">${pnlSign}${pnl.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} (${roeSign}${roe}%)</td>
+                        </tr>
+                    `;
+                }).join('');
+
+            } catch (error) {
+                console.error('Error updating positions:', error);
+            }
+        }
+
+        // Call on page load
+        updatePositions();
+
+        // Refresh every 3 seconds
+        setInterval(updatePositions, 3000);
+
+        // Fetch and update portfolio analytics
+        async function updateAnalytics() {
+            try {
+                const response = await fetch('/api/analytics?days=30');
+                const data = await response.json();
+
+                if (data.error) {
+                    console.error('Error fetching analytics:', data.error);
+                    return;
+                }
+
+                // Update metrics
+                const winRateEl = document.getElementById('win-rate');
+                if (winRateEl) {
+                    winRateEl.textContent = `${data.winRate}%`;
+                    winRateEl.style.color = data.winRate >= 50 ? '#00ff88' : '#ff4466';
+                }
+
+                const profitFactorEl = document.getElementById('profit-factor');
+                if (profitFactorEl) {
+                    profitFactorEl.textContent = data.profitFactor.toFixed(2);
+                    profitFactorEl.style.color = data.profitFactor >= 1 ? '#00ff88' : '#ff4466';
+                }
+
+                const sharpeEl = document.getElementById('sharpe-ratio');
+                if (sharpeEl) {
+                    sharpeEl.textContent = data.sharpeRatio.toFixed(2);
+                    sharpeEl.style.color = data.sharpeRatio >= 0 ? '#00ff88' : '#ff4466';
+                }
+
+                const sortinoEl = document.getElementById('sortino-ratio');
+                if (sortinoEl) {
+                    sortinoEl.textContent = data.sortinoRatio.toFixed(2);
+                    sortinoEl.style.color = data.sortinoRatio >= 0 ? '#00ff88' : '#ff4466';
+                }
+
+                // Update heat map
+                updateHeatMap(data.pnlBySymbol);
+
+            } catch (error) {
+                console.error('Error updating analytics:', error);
+            }
+        }
+
+        function updateHeatMap(pnlBySymbol) {
+            const container = document.getElementById('heat-map-container');
+            if (!container) return;
+
+            const entries = Object.entries(pnlBySymbol || {});
+            if (entries.length === 0) {
+                container.innerHTML = '<p style="text-align:center;color:var(--text-secondary);grid-column:1/-1;">No trading data available</p>';
+                return;
+            }
+
+            // Find min/max for color scaling
+            const pnls = entries.map(([_, pnl]) => pnl);
+            const maxPnl = Math.max(...pnls, 0);
+            const minPnl = Math.min(...pnls, 0);
+
+            container.innerHTML = entries.map(([symbol, pnl]) => {
+                // Calculate color intensity (0-100)
+                let intensity;
+                if (pnl >= 0) {
+                    intensity = maxPnl > 0 ? Math.min((pnl / maxPnl) * 100, 100) : 0;
+                } else {
+                    intensity = minPnl < 0 ? Math.min((Math.abs(pnl) / Math.abs(minPnl)) * 100, 100) : 0;
+                }
+
+                // Background color with opacity based on intensity
+                const bgColor = pnl >= 0
+                    ? `rgba(0, 255, 136, ${0.15 + (intensity / 100) * 0.5})`
+                    : `rgba(255, 68, 102, ${0.15 + (intensity / 100) * 0.5})`;
+
+                const textColor = pnl >= 0 ? '#00ff88' : '#ff4466';
+
+                return `
+                    <div style="
+                        width: 100%;
+                        height: 60px;
+                        border-radius: 8px;
+                        background: ${bgColor};
+                        border-left: 4px solid ${textColor};
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        padding: 0 1rem;
+                        transition: all 0.2s;
+                        cursor: pointer;
+                    " onmouseover="this.style.background='rgba(' + (${pnl} >= 0 ? '0, 255, 136' : '255, 68, 102') + ', 0.15)'" 
+                       onmouseout="this.style.background='${bgColor}'">
+                        <div style="font-weight: 600; font-size: 1rem; color: var(--text-main);">
+                            ${symbol}
+                        </div>
+                        <div style="font-size: 1.1rem; font-weight: 600; color: ${textColor};">
+                            ${pnl >= 0 ? '+' : ''}${pnl.toFixed(2)} USDT
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Call on page load
+        updateAnalytics();
+
+        // Refresh every 10 seconds
+        setInterval(updateAnalytics, 10000);
     </script>
 </body>
 
